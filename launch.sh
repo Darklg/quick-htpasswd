@@ -3,7 +3,7 @@
 cat <<EOF
 
 ###################################
-## Quick htpasswd v 0.1.0
+## Quick htpasswd v 0.1.1
 ###################################
 
 EOF
@@ -14,7 +14,10 @@ _PATH=$(pwd);
 ## Generate password
 ###################################
 
-read -p "What’s your username ? " _HTPASSWD_USERNAME;
+_HTPASSWD_USERNAME='';
+while [[ "${_HTPASSWD_USERNAME}" = "" ]]; do
+    read -p "What’s your username ? " _HTPASSWD_USERNAME;
+done
 htpasswd -c  "${_PATH}/.htpasswd" "${_HTPASSWD_USERNAME}";
 
 ###################################
