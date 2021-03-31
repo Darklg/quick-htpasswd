@@ -3,7 +3,7 @@
 cat <<EOF
 
 ###################################
-## Quick htpasswd v 0.1.1
+## Quick htpasswd v 0.1.2
 ###################################
 
 EOF
@@ -25,6 +25,8 @@ htpasswd -c  "${_PATH}/.htpasswd" "${_HTPASSWD_USERNAME}";
 ###################################
 
 _HTACCESS_CONTENT=$(cat <<EOF
+
+# htpasswd protection
 AuthType Basic
 AuthName "Admin"
 AuthUserFile ${_PATH}/.htpasswd
