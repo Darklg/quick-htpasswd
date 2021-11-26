@@ -9,6 +9,7 @@ bash <(wget -qO- https://raw.githubusercontent.com/Darklg/quick-htpasswd/main/la
 ## Roadmap
 
 - [ ] Detect if a protection is active to avoid duplicate in htaccess.
+- [ ] Ask to protect extra files.
 
 
 ### Protect an extra file
