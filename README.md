@@ -17,7 +17,7 @@ bash <(wget -qO- https://raw.githubusercontent.com/Darklg/quick-htpasswd/main/la
 ```bash
 <Files wp-login.php>
 AuthType Basic
-AuthName "Admin"
+AuthName "Admin" # Same name as the other protected directories & files
 AuthUserFile [HTPASSWDPATH]/.htpasswd
 Require valid-user
 </Files>
