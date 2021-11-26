@@ -9,3 +9,15 @@ bash <(wget -qO- https://raw.githubusercontent.com/Darklg/quick-htpasswd/main/la
 ## Roadmap
 
 - [ ] Detect if a protection is active to avoid duplicate in htaccess.
+
+
+### Protect an extra file
+
+```bash
+<Files wp-login.php>
+AuthType Basic
+AuthName "Admin"
+AuthUserFile [HTPASSWDPATH]/.htpasswd
+Require valid-user
+</Files>
+```
