@@ -3,12 +3,23 @@
 cat <<EOF
 
 ###################################
-## Quick htpasswd v 0.1.2
+## Quick htpasswd v 0.2.0
 ###################################
 
 EOF
 
 _PATH=$(pwd);
+
+###################################
+## Detect an active protection
+###################################
+
+if [[ -f "${_PATH}/.htaccess" ]];then
+    if grep -q "AuthUserFile" "${_PATH}/.htaccess"; then
+        echo 'It looks like this folder is already protected !'
+        return 0;
+    fi
+fi;
 
 ###################################
 ## Generate password
