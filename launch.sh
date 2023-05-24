@@ -3,7 +3,7 @@
 cat <<EOF
 
 ###################################
-## Quick htpasswd v 0.3.0
+## Quick htpasswd v 0.3.1
 ###################################
 
 EOF
@@ -16,7 +16,7 @@ _PATH=$(pwd);
 
 if [[ -f "${_PATH}/.htaccess" ]];then
     if grep -q "AuthUserFile" "${_PATH}/.htaccess"; then
-        echo 'It looks like this folder is already protected !'
+        echo 'It looks like this folder is already protected !';
         return 0;
     fi
 fi;
@@ -30,7 +30,7 @@ while [[ "${_HTPASSWD_USERNAME}" = "" ]]; do
     read -p "What’s your username ? " _HTPASSWD_USERNAME;
 done
 htpasswd -c  "${_PATH}/.htpasswd" "${_HTPASSWD_USERNAME}";
-read -p "Do you need to bypass protection for static assets ? Type yes/[no] :" _HTACCESS_STATIC_BYPASS;
+read -p "Do you need to bypass protection for static assets ? Type yes/[no] : " _HTACCESS_STATIC_BYPASS;
 
 ###################################
 ## Generate htaccess
@@ -72,4 +72,4 @@ EOF
 );
 fi;
 
-echo "${_HTACCESS_CONTENT}" >> "${_PATH}/.htaccess"
+echo "${_HTACCESS_CONTENT}" >> "${_PATH}/.htaccess";
