@@ -3,7 +3,7 @@
 cat <<EOF
 
 ###################################
-## Quick htpasswd v 0.3.1
+## Quick htpasswd v 0.4.0
 ###################################
 
 EOF
@@ -43,6 +43,7 @@ AuthType Basic
 AuthName "Admin"
 AuthUserFile ${_PATH}/.htpasswd
 Require valid-user
+ErrorDocument 401 "401"
 EOF
 );
 
