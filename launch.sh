@@ -3,7 +3,7 @@
 cat <<EOF
 
 ###################################
-## Quick htpasswd v 0.4.0
+## Quick htpasswd v 0.5.0
 ###################################
 
 EOF
@@ -31,6 +31,7 @@ while [[ "${_HTPASSWD_USERNAME}" = "" ]]; do
 done
 htpasswd -c  "${_PATH}/.htpasswd" "${_HTPASSWD_USERNAME}";
 read -p "Do you need to bypass protection for static assets ? Type yes/[no] : " _HTACCESS_STATIC_BYPASS;
+read -p "Do you need to authorize specific IP addresses ? Type yes/[no] : " _HTACCESS_IP_BYPASS;
 
 ###################################
 ## Generate htaccess
@@ -56,6 +57,19 @@ ${_HTACCESS_CONTENT}
   Allow from all
   Satisfy any
 </Files>
+EOF
+);
+fi;
+
+# Bypass protection for specific IP addresses
+if [[ "${_HTACCESS_IP_BYPASS}" == 'yes' || "${_HTACCESS_IP_BYPASS}" == 'y' ]];then
+    _HTACCESS_CONTENT=$(cat <<EOF
+${_HTACCESS_CONTENT}
+Order deny,allow
+Deny from all
+Allow from 1.1.1.1
+Allow from 8.8.8.8
+Satisfy any
 EOF
 );
 fi;
