@@ -3,12 +3,21 @@
 cat <<EOF
 
 ###################################
-## Quick htpasswd v 0.5.0
+## Quick htpasswd v 0.5.1
 ###################################
 
 EOF
 
 _PATH=$(pwd);
+
+####################################
+## Check if htpasswd is installed
+####################################
+
+if ! command -v htpasswd &> /dev/null; then
+    echo "htpasswd could not be found, please install it first.";
+    exit 1;
+fi;
 
 ###################################
 ## Detect an active protection
@@ -17,7 +26,7 @@ _PATH=$(pwd);
 if [[ -f "${_PATH}/.htaccess" ]];then
     if grep -q "AuthUserFile" "${_PATH}/.htaccess"; then
         echo 'It looks like this folder is already protected !';
-        return 0;
+        exit 1;
     fi
 fi;
 
@@ -29,7 +38,7 @@ _HTPASSWD_USERNAME='';
 while [[ "${_HTPASSWD_USERNAME}" = "" ]]; do
     read -p "What’s your username ? " _HTPASSWD_USERNAME;
 done
-htpasswd -c  "${_PATH}/.htpasswd" "${_HTPASSWD_USERNAME}";
+htpasswd -c  "${_PATH}/.htpasswd" "${_HTPASSWD_USERNAME}" || { echo "Error while creating .htpasswd file"; exit 1; }
 read -p "Do you need to bypass protection for static assets ? Type yes/[no] : " _HTACCESS_STATIC_BYPASS;
 read -p "Do you need to authorize specific IP addresses ? Type yes/[no] : " _HTACCESS_IP_BYPASS;
 

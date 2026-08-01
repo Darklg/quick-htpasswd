@@ -6,12 +6,12 @@ Quickly add a password protection to a folder via htpasswd on Apache 2.
 ```bash
 bash <(wget -qO- https://raw.githubusercontent.com/Darklg/quick-htpasswd/main/launch.sh)
 ```
+
 ## Roadmap
 
 - [x] Detect if a protection is active to avoid duplicate in htaccess.
 - [x] Ask to bypass protection for assets (JS, CSS, Images, etc).
 - [ ] Ask to protect extra files.
-
 
 ### Protect an extra file
 
