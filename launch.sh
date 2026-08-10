@@ -3,7 +3,7 @@
 cat <<EOF
 
 ###################################
-## Quick htpasswd v 0.5.1
+## Quick htpasswd v 0.6.0
 ###################################
 
 EOF
@@ -26,7 +26,19 @@ fi;
 if [[ -f "${_PATH}/.htaccess" ]];then
     if grep -q "AuthUserFile" "${_PATH}/.htaccess"; then
         echo 'It looks like this folder is already protected !';
-        exit 1;
+
+        _EXISTING_HTPASSWD=$(grep -m1 "AuthUserFile" "${_PATH}/.htaccess" | awk '{print $2}');
+        read -p "Do you want to add a user to ${_EXISTING_HTPASSWD} ? Type yes/[no] : " _ADD_USER;
+        if [[ "${_ADD_USER}" != 'yes' && "${_ADD_USER}" != 'y' ]];then
+            exit 1;
+        fi;
+
+        _NEW_USERNAME='';
+        while [[ "${_NEW_USERNAME}" = "" ]]; do
+            read -p "What’s the new username ? " _NEW_USERNAME;
+        done
+        htpasswd "${_EXISTING_HTPASSWD}" "${_NEW_USERNAME}" || { echo "Error while updating .htpasswd file"; exit 1; }
+        return 0;
     fi
 fi;
 
