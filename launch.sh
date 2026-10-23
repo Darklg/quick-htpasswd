@@ -3,7 +3,7 @@
 cat <<EOF
 
 ###################################
-## Quick htpasswd v 0.6.0
+## Quick htpasswd v 0.7.0
 ###################################
 
 EOF
@@ -38,7 +38,7 @@ if [[ -f "${_PATH}/.htaccess" ]];then
             read -p "What’s the new username ? " _NEW_USERNAME;
         done
         htpasswd "${_EXISTING_HTPASSWD}" "${_NEW_USERNAME}" || { echo "Error while updating .htpasswd file"; exit 1; }
-        return 0;
+        exit 0;
     fi
 fi;
 
@@ -46,11 +46,30 @@ fi;
 ## Generate password
 ###################################
 
-_HTPASSWD_USERNAME='';
-while [[ "${_HTPASSWD_USERNAME}" = "" ]]; do
-    read -p "What’s your username ? " _HTPASSWD_USERNAME;
-done
-htpasswd -c  "${_PATH}/.htpasswd" "${_HTPASSWD_USERNAME}" || { echo "Error while creating .htpasswd file"; exit 1; }
+_HTPASSWD_CREATE='1';
+if [[ -f "${_PATH}/.htpasswd" ]];then
+    echo 'A .htpasswd file exists but is not used by .htaccess.';
+    read -p "Reuse existing .htpasswd? \"no\" will overwrite it. Type [yes]/no : " _HTPASSWD_REUSE;
+    if [[ "${_HTPASSWD_REUSE}" != 'no' && "${_HTPASSWD_REUSE}" != 'n' ]];then
+        _HTPASSWD_CREATE='0';
+        read -p "Add a user to .htpasswd ? Type yes/[no] : " _ADD_USER;
+        if [[ "${_ADD_USER}" == 'yes' || "${_ADD_USER}" == 'y' ]];then
+            _NEW_USERNAME='';
+            while [[ "${_NEW_USERNAME}" = "" ]]; do
+                read -p "What’s the new username ? " _NEW_USERNAME;
+            done
+            htpasswd "${_PATH}/.htpasswd" "${_NEW_USERNAME}" || { echo "Error while updating .htpasswd file"; exit 1; }
+        fi;
+    fi;
+fi;
+
+if [[ "${_HTPASSWD_CREATE}" == '1' ]];then
+    _HTPASSWD_USERNAME='';
+    while [[ "${_HTPASSWD_USERNAME}" = "" ]]; do
+        read -p "What’s your username ? " _HTPASSWD_USERNAME;
+    done
+    htpasswd -c  "${_PATH}/.htpasswd" "${_HTPASSWD_USERNAME}" || { echo "Error while creating .htpasswd file"; exit 1; }
+fi;
 read -p "Do you need to bypass protection for static assets ? Type yes/[no] : " _HTACCESS_STATIC_BYPASS;
 read -p "Do you need to authorize specific IP addresses ? Type yes/[no] : " _HTACCESS_IP_BYPASS;
 

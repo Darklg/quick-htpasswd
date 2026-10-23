@@ -11,6 +11,7 @@ bash <(wget -qO- https://raw.githubusercontent.com/Darklg/quick-htpasswd/main/la
 
 - [x] Detect if a protection is active to avoid duplicate in htaccess.
 - [x] Ask to bypass protection for assets (JS, CSS, Images, etc).
+- [x] Reuse an existing .htpasswd instead of overwriting it.
 - [ ] Ask to protect extra files.
 
 ### Protect an extra file
